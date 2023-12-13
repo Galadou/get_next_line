@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 12:19:45 by gmersch           #+#    #+#             */
-/*   Updated: 2023/12/01 12:37:22 by gmersch          ###   ########.fr       */
+/*   Created: 2023/12/13 15:32:29 by gmersch           #+#    #+#             */
+/*   Updated: 2023/12/13 15:32:32 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-int	ft_strlen(const char *s);
+int		ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-char *get_next_line(int fd);
+char	*get_next_line(int fd);
 
 #endif

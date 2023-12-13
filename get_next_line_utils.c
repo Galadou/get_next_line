@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 12:37:39 by gmersch           #+#    #+#             */
-/*   Updated: 2023/12/01 12:37:43 by gmersch          ###   ########.fr       */
+/*   Created: 2023/12/13 15:32:12 by gmersch           #+#    #+#             */
+/*   Updated: 2023/12/13 15:32:17 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_strlen(const char *s)
 {
 	int	i;
-	
+
 	if (!s)
 		return (0);
 	i = 0;
@@ -35,15 +35,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s2 == 0)
 		return (0);
 	len = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc((len + 1) * sizeof(char));
+	str = malloc((len +1) * sizeof(char));
 	if (!str)
 		return (0);
-	ft_strlcpy(str, s1, ft_strlen(s1)+1);
+	ft_strlcpy(str, s1, ft_strlen(s1) +1);
 	i = ft_strlen(s1);
 	while (i < len)
 	{
 		str[i] = s2[f];
-		s2[f] = 0;
+		//s2[f] = 0;
 		f++;
 		i++;
 	}
@@ -59,7 +59,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t			j;
 	char			*str;
 
-	i = 0;
 	if (!s)
 		return (0);
 	if ((start > (unsigned int)ft_strlen(s)))
@@ -67,14 +66,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	j = ft_strlen(&s[start]);
 	if (j < len)
 		len = j;
-	str = malloc((len +1) * sizeof(char));
+	str = malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (0);
+	i = 0;
 	while (i < len)
 	{
-		str[i] = s[start];
+		str[i] = s[start + i];
 		i++;
-		start++;
 	}
 	str[i] = '\0';
 	return (str);
