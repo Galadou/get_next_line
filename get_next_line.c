@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-char	*ultimate_free(char **str, int j)
+char	*ultimate_free(char *str, int j)
 {
 	char *buffer;
 	
-	buffer = ft_substr(str[0], j + 1, ft_strlen(str[0]) - (j + 1));
-	free(str[0]);
+	buffer = ft_substr(str, j + 1, ft_strlen(str) - (j + 1));
+	free(str);
 	return (buffer);
 }
 
@@ -25,7 +26,6 @@ char	*verif_line(char **str)
 {
 	int		j;
 	char	*line;
-	char	*buffer;
 
 	j = 0;
 	if (!(*str) || str[0][0] == '\0')
@@ -35,8 +35,7 @@ char	*verif_line(char **str)
 		if (str[0][j] == '\n')
 		{
 			line = ft_substr(str[0], 0, j + 1);
-			buffer = ultimate_free(str, j);
-			str[0] = buffer;
+			str[0] = ultimate_free(str[0], j);
 			return (line);
 		}
 		j++;
@@ -44,30 +43,33 @@ char	*verif_line(char **str)
 	if (j != 0)
 	{
 		line = ft_substr(str[0], 0, j + 1);
-		buffer = ultimate_free(str, j);
-		str[0] = buffer;
+		str[0] = ultimate_free(str[0], j);
 		return (line);
 	}
 	free(str);
 	return (0);
 }
 
-int	str_creator(int *i, int fd, char **str)
+int	str_creator(int fd, char **str)
 {
 	char	buffer[BUFFER_SIZE + 1];
 	char	*temp;
+	int		len;
 
-	while (i != 0)
+	len = 1;
+	while (len != 0)
 	{
-		*i = read(fd, buffer, BUFFER_SIZE);
-		buffer[*i] = '\0';
-		if (*i == 0)
+		len = read(fd, buffer, BUFFER_SIZE);
+		buffer[len] = '\0';
+		if (len == 0)
 			break ;
-		if (*i < 0)
-			return (*i);
+		if (len < 0)
+			return (len);
 		temp = ft_strjoin(str[0], buffer);
 		str[0] = temp;
 	}
+	//if (temp)
+	//	free(temp);
 	return (0);
 }
 
@@ -75,23 +77,17 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	int			verif;
-	static int	i;
-	static int	is_loop;
-	static char	*str;
 
-	if (!is_loop)
-		is_loop = 2;
-	if (is_loop == 2)
-		i = 1;
-	if (fd == 0)
+	static char	*str = NULL;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (i != 0 && is_loop == 2)
+	if (/* i != 0 && is_loop == 2 */!str)
 	{
-		verif = str_creator(&i, fd, &str);
+		verif = str_creator(fd, &str);
 		if (verif < 0)
 			return (0);
 	}
-	is_loop = 1;
 	line = verif_line(&str);
 	if (line != 0)
 		return (line);
