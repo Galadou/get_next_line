@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmersch <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 15:46:54 by gmersch           #+#    #+#             */
-/*   Updated: 2023/12/18 15:46:57 by gmersch          ###   ########.fr       */
+/*   Created: 2023/12/18 15:47:04 by gmersch           #+#    #+#             */
+/*   Updated: 2023/12/18 15:47:09 by gmersch          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	str_check(char *str)
 {
@@ -86,7 +86,7 @@ static int	str_creator(int fd, char **str, int *len)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str = NULL;
+	static char	*str[1024];
 	int			len;
 	int			verif;
 
@@ -94,16 +94,16 @@ char	*get_next_line(int fd)
 		return (NULL);
 	len = 0;
 	verif = 0;
-	if (!str || str_check(str) == 0)
-		verif = str_creator(fd, &str, &len);
-	if (str == NULL || verif == -1)
+	if (!str[fd] || str_check(str[fd]) == 0)
+		verif = str_creator(fd, &str[fd], &len);
+	if (str[fd] == NULL || verif == -1)
 		return (NULL);
-	line = verif_line(&str);
-	if ((len < BUFFER_SIZE && str && (ft_strcmp(str, line) == 0
+	line = verif_line(&str[fd]);
+	if ((len < BUFFER_SIZE && str[fd] && (ft_strcmp(str[fd], line) == 0
 				&& verif == 1)) || BUFFER_SIZE == 1)
 	{
-		free(str);
-		str = NULL;
+		free(str[fd]);
+		str[fd] = NULL;
 	}
 	if (line)
 		return (line);
